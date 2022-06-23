@@ -10,17 +10,48 @@ const BLACK: u8 = 1;
 const WHITE: u8 = 2;
 const PUTABLE: u8 = 7;
 
+const TOP: &str = "  　0　1　2　3　4　5　6　7\n  ┌──┬──┬──┬──┬──┬──┬──┬──┐";
+const MID: &str = "  ├──┼──┼──┼──┼──┼──┼──┼──┤";
+const BOTTOM: &str = "  └──┴──┴──┴──┴──┴──┴──┴──┘";
 
-fn print_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]){
-    for line in table {
-        for stone in line{
+macro_rules! range {
+    ($stop:expr) => {
+        0..$stop
+    };
+    ($start:expr, $stop:expr) => {
+        $start..$stop
+    };
+    ($start:expr, $stop:expr, -$step:expr) => {
+        ($stop + 1..$start + 1).rev().step_by($step)
+    };
+    ($start:expr, $stop:expr, $step:expr) => {
+        ($start..$stop).step_by($step)
+    };
+}
+
+fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE], is_show_puttable: bool) {
+    print!("{}", TOP);
+    for (line, i) in table.iter().zip(0..8) {
+        print!("\n{}0│", i);
+        for stone in line {
             let chr = match *stone {
-                CLEAR => CLEAR_CHR,
                 BLACK => BLACK_CHR,
                 WHITE => WHITE_CHR,
-                _ => "",
+                PUTABLE => {
+                    if is_show_puttable {
+                        PUTABLE_CHR
+                    } else {
+                        CLEAR_CHR
+                    }
+                }
+                _ => CLEAR_CHR,
             };
-            print!("{}", chr)
+            print!("{}│", chr);
+        }
+        print!("\n{}", MID);
+    }
+    println!("\r{}", BOTTOM)
+}
         }
         println!()
     }
