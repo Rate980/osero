@@ -69,6 +69,62 @@ fn reverce(coler: u8) -> u8 {
     }
 }
 
+fn check_putable(
+    table: &[[u8; TABLE_SIZE]; TABLE_SIZE],
+    coler: u8,
+    diff: [i32; 2],
+    y: usize,
+    x: usize,
+    is_continuous: bool,
+) -> bool {
+    let diff_y = diff[0];
+    let diff_x = diff[1];
+    let x1 = diff_x + x as i32;
+    let y1 = diff_y + y as i32;
+    if x1 < 0 || x1 as usize > TABLE_SIZE || y1 < 0 || y1 as usize > TABLE_SIZE {
+        return false;
+    }
+
+    if table[y1 as usize][x1 as usize] == coler {
+        is_continuous
+    } else if table[y1 as usize][x1 as usize] == reverce(coler) {
+        check_putable(table, coler, diff, y1 as usize, x1 as usize, true)
+    } else {
+        false
+    }
+}
+
+fn get_putables(table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE], coler: u8) -> Vec<usize> {
+    let mut putables: Vec<usize> = Vec::new();
+    for y in range!(TABLE_SIZE) {
+        for x in range!(TABLE_SIZE) {
+            if table[y][x] == BLACK || table[y][x] == WHITE {
+                continue;
+            }
+            'l1: for i in 0..3 {
+                let i1 = i - 1;
+                for j in 0..3 {
+                    let j1 = j - 1;
+                    if i + j == 0 {
+                        continue;
+                    }
+                    if check_putable(table, coler, [i1, j1], y, x, false) {
+                        putables.push(index_to_cmporce(x, y));
+                        break 'l1;
+                    }
+                }
+            }
+        }
+    }
+    putables
+}
+fn remove_putable(table: &mut [[u8; 8]; 8]) {
+    for y in range!(TABLE_SIZE) {
+        for x in range!(TABLE_SIZE) {
+            table[y][x] = table[y][x] % 7;
+        }
+    }
+}
 fn main() {
     let mut table = [[CLEAR; TABLE_SIZE]; TABLE_SIZE];
     // 初期位置にコマを置く
