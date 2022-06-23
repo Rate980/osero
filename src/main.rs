@@ -55,7 +55,7 @@ fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE], is_show_puttable: bool) {
 
 fn index_to_cmporce(x: usize, y: usize) -> usize {
     (y << 3) + x
-        }
+}
 
 fn comporce_to_index(compors: usize) -> [usize; 2] {
     [compors & 0b111000 >> 3, compors & 0b111]
@@ -132,5 +132,9 @@ fn main() {
     table[3][4] = BLACK;
     table[4][3] = BLACK;
     table[4][4] = WHITE;
-    print_table(&table);
+    let x: usize = 4;
+    let com = index_to_cmporce(x, x);
+    let i = comporce_to_index(com);
+    println!("{}", com);
+    println!("{}{}", i[0], i[1]);
 }
