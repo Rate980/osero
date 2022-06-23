@@ -1,12 +1,14 @@
 const BLACK_CHR: &str = "黒";
 const WHITE_CHR: &str = "白";
 const CLEAR_CHR: &str = "　";
+const PUTABLE_CHR: &str = "置";
 
 const TABLE_SIZE: usize = 8;
 
 const CLEAR: u8 = 0;
 const BLACK: u8 = 1;
 const WHITE: u8 = 2;
+const PUTABLE: u8 = 7;
 
 
 fn print_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]){
