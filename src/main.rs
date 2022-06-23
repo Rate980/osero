@@ -52,8 +52,20 @@ fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE], is_show_puttable: bool) {
     }
     println!("\r{}", BOTTOM)
 }
+
+fn index_to_cmporce(x: usize, y: usize) -> usize {
+    (y << 3) + x
         }
-        println!()
+
+fn comporce_to_index(compors: usize) -> [usize; 2] {
+    [compors & 0b111000 >> 3, compors & 0b111]
+}
+
+fn reverce(coler: u8) -> u8 {
+    match coler {
+        WHITE => BLACK,
+        BLACK => WHITE,
+        _ => CLEAR,
     }
 }
 
