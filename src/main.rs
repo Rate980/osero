@@ -1,7 +1,7 @@
 const BLACK_CHR: &str = "黒";
 const WHITE_CHR: &str = "白";
 const CLEAR_CHR: &str = "　";
-const PUTABLE_CHR: &str = "置";
+const PUTABLE_CHR: &str = "・";
 
 const TABLE_SIZE: usize = 8;
 
