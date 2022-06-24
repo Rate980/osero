@@ -29,7 +29,7 @@ macro_rules! range {
     };
 }
 
-fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE], is_show_puttable: bool) {
+fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]) {
     print!("{}", TOP);
     for (line, i) in table.iter().zip(0..8) {
         print!("\n{}0│", i);
@@ -37,13 +37,7 @@ fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE], is_show_puttable: bool) {
             let chr = match *stone {
                 BLACK => BLACK_CHR,
                 WHITE => WHITE_CHR,
-                PUTABLE => {
-                    if is_show_puttable {
-                        PUTABLE_CHR
-                    } else {
-                        CLEAR_CHR
-                    }
-                }
+                PUTABLE => PUTABLE_CHR,
                 _ => CLEAR_CHR,
             };
             print!("{}│", chr);
