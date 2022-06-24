@@ -51,8 +51,11 @@ fn index_to_cmporce(x: usize, y: usize) -> usize {
     (y << 3) + x
 }
 
-fn comporce_to_index(compors: usize) -> [usize; 2] {
-    [compors & 0b111000 >> 3, compors & 0b111]
+fn comporce_to_index(compors: usize) -> (usize, usize) {
+    // println!("{}", compors);
+    // println!("{}", compors >> 3);
+    // println!("{}", compors & 0o7);
+    (compors >> 3, compors & 0o7)
 }
 
 fn reverce(coler: u8) -> u8 {
