@@ -157,7 +157,7 @@ fn check_reverce(
     } else if *tile == reverce(coler) {
         let res = check_putable(table, coler, diff, y1 as usize, x1 as usize, true);
         if res {
-            table[x][y] = coler;
+            table[y1][x1] = coler;
         }
         res
     } else {
