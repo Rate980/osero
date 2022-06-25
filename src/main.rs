@@ -190,22 +190,18 @@ fn remove_putable(table: &mut [[u8; 8]; 8]) {
 fn main() {
     let mut table = [[CLEAR; TABLE_SIZE]; TABLE_SIZE];
     // 初期位置にコマを置く
-    table[3][3] = WHITE;
-    table[3][4] = BLACK;
-    table[4][3] = BLACK;
-    table[4][4] = WHITE;
-
     // table[3][3] = WHITE;
-    // table[3][3] = BLACK;
-    // table[4][3] = WHITE;
-
-    // table[2][4] = BLACK;
     // table[3][4] = BLACK;
-    // table[4][4] = BLACK;
+    // table[4][3] = BLACK;
+    // table[4][4] = WHITE;
+
+    table[0][3] = BLACK;
+    for i in 1..7 {
+        table[i][3] = WHITE;
+    }
     let puttables = get_putables(&mut table, BLACK);
     show_table(&table);
     let put_point = puttables[0];
-    println!("{}", put_point);
     reversing(&mut table, put_point, BLACK);
     show_table(&table);
     // show_table(&table);
