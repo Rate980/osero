@@ -128,7 +128,8 @@ fn get_putables(table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE], coler: u8) -> Vec<us
                     if i + j == 0 {
                         continue;
                     }
-                    if check_putable(table, coler, [i1, j1], y, x, false) {
+                    if check_putable(table, coler, &[i1, j1], y, x, false) {
+                        table[y][x] = 7;
                         putables.push(index_to_cmporce(x, y));
                         break 'l1;
                     }
