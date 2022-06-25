@@ -139,6 +139,46 @@ fn get_putables(table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE], coler: u8) -> Vec<us
     }
     putables
 }
+fn check_reverce(
+    table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE],
+    coler: u8,
+    diff: &[i32; 2],
+    y: usize,
+    x: usize,
+    is_continuous: bool,
+) -> bool {
+    let res = match get_next_tile(table, diff, y, x) {
+        Some(v) => v,
+        None => return false,
+    };
+    let (tile, y1, x1) = res;
+    if *tile == coler {
+        is_continuous
+    } else if *tile == reverce(coler) {
+        let res = check_putable(table, coler, diff, y1 as usize, x1 as usize, true);
+        if res {
+            table[x][y] = coler;
+        }
+        res
+    } else {
+        false
+    }
+}
+
+fn reversing(table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE], put_point: usize, coler: u8) {
+    remove_putable(table);
+    let (y, x) = comporce_to_index(put_point);
+    table[y][x] = coler;
+    for i in 0..3 {
+        let diff_y = i - 1;
+        for j in 0..3 {
+            let diff_x = j - 1;
+
+            check_reverce(table, coler, &[diff_y, diff_x], y, x, false);
+        }
+    }
+}
+
 fn remove_putable(table: &mut [[u8; 8]; 8]) {
     for y in range!(TABLE_SIZE) {
         for x in range!(TABLE_SIZE) {
@@ -153,9 +193,19 @@ fn main() {
     table[3][4] = BLACK;
     table[4][3] = BLACK;
     table[4][4] = WHITE;
-    let x: usize = 4;
-    let com = index_to_cmporce(x, x);
-    let i = comporce_to_index(com);
-    println!("{}", com);
-    println!("{}{}", i[0], i[1]);
+
+    // table[3][3] = WHITE;
+    // table[3][3] = BLACK;
+    // table[4][3] = WHITE;
+
+    // table[2][4] = BLACK;
+    // table[3][4] = BLACK;
+    // table[4][4] = BLACK;
+    let puttables = get_putables(&mut table, BLACK);
+    show_table(&table);
+    let put_point = puttables[0];
+    println!("{}", put_point);
+    reversing(&mut table, put_point, BLACK);
+    show_table(&table);
+    // show_table(&table);
 }
