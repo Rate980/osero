@@ -65,26 +65,49 @@ fn reverce(coler: u8) -> u8 {
         _ => CLEAR,
     }
 }
-
-fn check_putable(
-    table: &[[u8; TABLE_SIZE]; TABLE_SIZE],
-    coler: u8,
-    diff: [i32; 2],
+fn get_next_tile<'a>(
+    table: &'a [[u8; TABLE_SIZE]; TABLE_SIZE],
+    diff: &[i32; 2],
     y: usize,
     x: usize,
-    is_continuous: bool,
-) -> bool {
+) -> Option<(&'a u8, usize, usize)> {
     let diff_y = diff[0];
     let diff_x = diff[1];
     let x1 = diff_x + x as i32;
     let y1 = diff_y + y as i32;
-    if x1 < 0 || x1 as usize > TABLE_SIZE || y1 < 0 || y1 as usize > TABLE_SIZE {
-        return false;
+    if x1 < 0 || y1 < 0 {
+        return None;
     }
+    let y1 = y1 as usize;
+    let x1 = x1 as usize;
 
-    if table[y1 as usize][x1 as usize] == coler {
+    let line = match table.get(y1) {
+        Some(v) => v,
+        None => return None,
+    };
+    let tile = match line.get(x1) {
+        Some(v) => v,
+        None => return None,
+    };
+    Some((tile, y1, x1))
+}
+
+fn check_putable(
+    table: &[[u8; TABLE_SIZE]; TABLE_SIZE],
+    coler: u8,
+    diff: &[i32; 2],
+    y: usize,
+    x: usize,
+    is_continuous: bool,
+) -> bool {
+    let res = match get_next_tile(table, diff, y, x) {
+        Some(v) => v,
+        None => return false,
+    };
+    let (tile, y1, x1) = res;
+    if *tile == coler {
         is_continuous
-    } else if table[y1 as usize][x1 as usize] == reverce(coler) {
+    } else if *tile == reverce(coler) {
         check_putable(table, coler, diff, y1 as usize, x1 as usize, true)
     } else {
         false
