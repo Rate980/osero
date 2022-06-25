@@ -147,6 +147,7 @@ fn check_reverce(
     x: usize,
     is_continuous: bool,
 ) -> bool {
+    // println!("{:o}", index_to_cmporce(x, y));
     let res = match get_next_tile(table, diff, y, x) {
         Some(v) => v,
         None => return false,
@@ -155,7 +156,7 @@ fn check_reverce(
     if *tile == coler {
         is_continuous
     } else if *tile == reverce(coler) {
-        let res = check_putable(table, coler, diff, y1 as usize, x1 as usize, true);
+        let res = check_reverce(table, coler, diff, y1, x1, true);
         if res {
             table[y1][x1] = coler;
         }
