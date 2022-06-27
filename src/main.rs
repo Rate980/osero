@@ -192,6 +192,22 @@ fn remove_putable(table: &mut [[u8; 8]; 8]) {
         }
     }
 }
+
+fn count_stone(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]) -> (usize, usize) {
+    let mut black: usize = 0;
+    let mut white: usize = 0;
+    for line in table {
+        for tile in line {
+            match *tile {
+                BLACK => black += 1,
+                WHITE => white += 1,
+                _ => (),
+            }
+        }
+    }
+    (black, white)
+}
+
 fn main() {
     let mut table = [[CLEAR; TABLE_SIZE]; TABLE_SIZE];
     // 初期位置にコマを置く
