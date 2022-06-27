@@ -144,6 +144,7 @@ fn get_putables(table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE], coler: u8) -> Vec<us
     }
     putables
 }
+
 fn check_reverce(
     table: &mut [[u8; TABLE_SIZE]; TABLE_SIZE],
     coler: u8,
@@ -236,12 +237,12 @@ fn main() {
                 passed = true;
                 continue;
             }
-    }
+        }
         passed = false;
-    let put_point = puttables[0];
+        let put_point = puttables[0];
         reversing(&mut table, put_point, coler);
         println!("{:?}", count_stone(&table));
-    show_table(&table);
+        show_table(&table);
     }
     // show_table(&table);
 }
