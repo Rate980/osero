@@ -211,19 +211,37 @@ fn count_stone(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]) -> (usize, usize) {
 fn main() {
     let mut table = [[CLEAR; TABLE_SIZE]; TABLE_SIZE];
     // 初期位置にコマを置く
-    // table[3][3] = WHITE;
-    // table[3][4] = BLACK;
-    // table[4][3] = BLACK;
-    // table[4][4] = WHITE;
+    table[3][3] = WHITE;
+    table[3][4] = BLACK;
+    table[4][3] = BLACK;
+    table[4][4] = WHITE;
 
-    table[0][3] = BLACK;
-    for i in 1..7 {
-        table[i][3] = WHITE;
+    // table[0][3] = BLACK;
+    // for i in 1..7 {
+    //     table[i][3] = WHITE;
+    // }
+    let mut coler = WHITE;
+    let mut passed = false;
+    loop {
+        let puttables = get_putables(&mut table, coler);
+        coler = reverce(coler);
+        println!("{}", get_tile_cher(&coler));
+        show_table(&table);
+        if puttables.len() == 0 {
+            let sum = count_stone(&table);
+            let sum = sum.0 + sum.1;
+            if passed || sum == 64 {
+                break;
+            } else {
+                passed = true;
+                continue;
+            }
     }
-    let puttables = get_putables(&mut table, BLACK);
-    show_table(&table);
+        passed = false;
     let put_point = puttables[0];
-    reversing(&mut table, put_point, BLACK);
+        reversing(&mut table, put_point, coler);
+        println!("{:?}", count_stone(&table));
     show_table(&table);
+    }
     // show_table(&table);
 }
