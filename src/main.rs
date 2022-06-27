@@ -29,17 +29,22 @@ macro_rules! range {
     };
 }
 
+fn get_tile_cher(stone: &u8) -> &str {
+    match *stone {
+        BLACK => BLACK_CHR,
+        WHITE => WHITE_CHR,
+        PUTABLE => PUTABLE_CHR,
+        _ => CLEAR_CHR,
+    }
+}
+
 fn show_table(table: &[[u8; TABLE_SIZE]; TABLE_SIZE]) {
+    println!("{:?}", count_stone(&table));
     print!("{}", TOP);
     for (line, i) in table.iter().zip(0..8) {
         print!("\n{}0│", i);
         for stone in line {
-            let chr = match *stone {
-                BLACK => BLACK_CHR,
-                WHITE => WHITE_CHR,
-                PUTABLE => PUTABLE_CHR,
-                _ => CLEAR_CHR,
-            };
+            let chr = get_tile_cher(stone);
             print!("{}│", chr);
         }
         print!("\n{}", MID);
